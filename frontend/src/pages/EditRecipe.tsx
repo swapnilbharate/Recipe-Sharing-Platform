@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { Image as ImageIcon, Plus, X, Clock, Users, Utensils, Beaker, FileText, Save, ArrowLeft } from 'lucide-react';
+import { API_URL } from '../config';
 
 export const EditRecipe = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,7 +27,7 @@ export const EditRecipe = () => {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/recipes');
+        const response = await axios.get(`${API_URL}/recipes`);
         const foundRecipe = response.data.find((r: any) => r._id === id);
         if (foundRecipe) {
           setRecipe({
@@ -73,7 +74,7 @@ export const EditRecipe = () => {
     e.preventDefault();
     try {
       await axios.put(
-        `http://localhost:3001/recipes/${id}`,
+        `${API_URL}/recipes/${id}`,
         recipe,
         {
           headers: { authorization: cookies.access_token },

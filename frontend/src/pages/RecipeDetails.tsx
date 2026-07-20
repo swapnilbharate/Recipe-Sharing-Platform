@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Clock, Users, ChefHat, ArrowLeft, Heart, Calendar, User, Trash2, Edit3 } from 'lucide-react';
 import { useCookies } from 'react-cookie';
+import { API_URL } from '../config';
 
 interface Recipe {
   _id: string;
@@ -40,7 +41,7 @@ export const RecipeDetails = () => {
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/recipes`);
+        const response = await axios.get(`${API_URL}/recipes`);
         const foundRecipe = response.data.find((r: Recipe) => r._id === id);
         setRecipe(foundRecipe);
       } catch (err) {
@@ -56,7 +57,7 @@ export const RecipeDetails = () => {
     if (!cookies.access_token || !userID || !recipe) return alert("Please sign in to like recipes!");
     try {
       const response = await axios.put(
-        'http://localhost:3001/recipes/like',
+        `${API_URL}/recipes/like`,
         { recipeID: recipe._id, userID },
         { headers: { authorization: cookies.access_token } }
       );
@@ -73,7 +74,7 @@ export const RecipeDetails = () => {
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this recipe?")) return;
     try {
-      await axios.delete(`http://localhost:3001/recipes/${recipe?._id}`, {
+      await axios.delete(`${API_URL}/recipes/${recipe?._id}`, {
         headers: { authorization: cookies.access_token }
       });
       navigate('/');

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import { Clock, BookmarkCheck, Sparkles, ChefHat } from 'lucide-react';
+import { API_URL } from '../config';
 
 interface Recipe {
   _id: string;
@@ -22,7 +23,7 @@ export const SavedRecipes = () => {
     const fetchSavedRecipes = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/recipes/savedRecipes/${userID}`,
+          `${API_URL}/recipes/savedRecipes/${userID}`,
           { headers: { authorization: cookies.access_token } }
         );
         // Sometimes backend might return just IDs, let's fetch full details or assume it returns full.

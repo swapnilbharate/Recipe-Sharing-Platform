@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Plus, TrendingUp, Bookmark, Star, Bell, ChefHat, Clock } from 'lucide-react';
+import { API_URL } from '../config';
 
 interface Recipe {
   _id: string;
@@ -39,7 +40,7 @@ export const Home = () => {
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/recipes');
+        const response = await axios.get(`${API_URL}/recipes`);
         setRecipes(response.data);
       } catch (err) {
         console.error(err);
@@ -49,7 +50,7 @@ export const Home = () => {
     const fetchSavedRecipes = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/recipes/savedRecipes/ids/${userID}`,
+          `${API_URL}/recipes/savedRecipes/ids/${userID}`,
           { headers: { authorization: cookies.access_token } }
         );
         setSavedRecipes(response.data.savedRecipes || []);
@@ -70,7 +71,7 @@ export const Home = () => {
   const saveRecipe = async (recipeID: string) => {
     try {
       const response = await axios.put(
-        'http://localhost:3001/recipes',
+        `${API_URL}/recipes`,
         { recipeID, userID },
         { headers: { authorization: cookies.access_token } }
       );

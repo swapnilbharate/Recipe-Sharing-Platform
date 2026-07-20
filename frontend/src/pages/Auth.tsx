@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { User, Lock, ArrowRight, Sparkles, Users, Utensils } from 'lucide-react';
+import { API_URL } from '../config';
 
 export const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -31,7 +32,7 @@ export const Auth = () => {
 
     try {
       const endpoint = isLogin ? 'login' : 'register';
-      const response = await axios.post(`http://localhost:3001/auth/${endpoint}`, {
+      const response = await axios.post(`${API_URL}/auth/${endpoint}`, {
         username,
         password,
       });

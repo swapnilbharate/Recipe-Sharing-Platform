@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { Image as ImageIcon, Plus, X, Clock, Users, Utensils, Beaker, FileText, ChevronRight, Save } from 'lucide-react';
+import { API_URL } from '../config';
 
 export const CreateRecipe = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ export const CreateRecipe = () => {
     e.preventDefault();
     try {
       await axios.post(
-        'http://localhost:3001/recipes',
+        `${API_URL}/recipes`,
         recipe,
         {
           headers: { authorization: cookies.access_token },
