@@ -1,3 +1,30 @@
+@import url('https://fonts.googleapis.css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-gray-100;
+    /* Option 5: Split diagonal background */
+    background: linear-gradient(135deg, #4A0E1F 0%, #1A1A1A 100%);
+    background-attachment: fixed;
+    font-family: 'Montserrat', sans-serif;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-[#4A0E1F]/90 backdrop-blur-lg border-2 border-[#FF6B00];
+  }
+  .glass-card {
+    @apply bg-[#4A0E1F]/90 backdrop-blur-xl border-2 border-[#FF6B00] shadow-2xl;
+  }
+  .text-glow {
+    text-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
+  }
+}
