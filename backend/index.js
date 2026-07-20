@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { userRouter } from './routes/users.js';
 import { recipesRouter } from './routes/recipes.js';
+import { seedRouter } from './routes/seed.js';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(cors());
 // Routes
 app.use("/auth", userRouter);
 app.use("/recipes", recipesRouter);
+app.use("/seed", seedRouter);
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)

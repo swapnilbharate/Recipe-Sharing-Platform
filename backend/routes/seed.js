@@ -1,9 +1,9 @@
-import mongoose from 'mongoose';
+import express from 'express';
 import bcrypt from 'bcrypt';
-import { UserModel } from './models/Users.js';
-import { RecipeModel } from './models/Recipes.js';
+import { UserModel } from '../models/Users.js';
+import { RecipeModel } from '../models/Recipes.js';
 
-const CLOUD_URI = 'mongodb://bharateswapnil969696_db_user:KMGMXVfIrp3jwKq4@ac-8oldr2x-shard-00-00.gp60b3q.mongodb.net:27017,ac-8oldr2x-shard-00-01.gp60b3q.mongodb.net:27017,ac-8oldr2x-shard-00-02.gp60b3q.mongodb.net:27017/recipe_db?ssl=true&replicaSet=atlas-8oldr2x-shard-0&authSource=admin&retryWrites=true&w=majority';
+const router = express.Router();
 
 const recipesData = [
   {
@@ -350,11 +350,8 @@ Serve cold as a sweet dessert, or alongside hot, fluffy puris.`
   }
 ];
 
-async function seedCloud() {
+router.get('/run', async (req, res) => {
     try {
-        console.log("Connecting to Cloud Database...");
-        await mongoose.connect(CLOUD_URI);
-
         console.log("Wiping existing data to reset recipes and users...");
         await UserModel.deleteMany({});
         await RecipeModel.deleteMany({});
@@ -373,18 +370,18 @@ async function seedCloud() {
         console.log("Injecting 12 detailed Maharashtrian recipes...");
         const recipesToInsert = recipesData.map(recipe => ({
             ...recipe,
-            userOwner: adminUser._id, // Assign ownership strictly to Admin
+            userOwner: adminUser._id,
             difficulty: "Medium",
             status: "published"
         }));
 
         await RecipeModel.insertMany(recipesToInsert);
 
-        console.log("Successfully seeded database! All recipes are now displaying on the live site.");
-        await mongoose.disconnect();
+        res.status(200).json({ message: "SUCCESS! 12 Maharashtrian recipes and the Admin account have been deployed to your Cloud Database!" });
     } catch (error) {
         console.error("Error seeding cloud:", error);
+        res.status(500).json({ error: "Failed to seed database" });
     }
-}
+});
 
-seedCloud();
+export { router as seedRouter };
